@@ -1,0 +1,43 @@
+.contact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.name,
+.number {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.icon {
+    margin-right: 8px;
+    font-size: 20px;
+    color: #555;
+}
+
+.deleteBtn {
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.deleteBtn:hover {
+    background-color: #e2e2e2;
+}
