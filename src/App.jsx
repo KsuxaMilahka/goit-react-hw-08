@@ -3,13 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 
 import { fetchContacts } from './redux/contacts/operations';
+import { apiRefreshUser } from './redux/auth/operations';
+import {
+  selectAuthIsLoggedIn,
+  selectAuthIsRefreshing,
+} from './redux/auth/selectors';
 
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Navigation from './components/Navigation/Navigation';
 
 import Loader from './components/Loader/Loader';
-import { selectAuthIsLoggedIn } from './redux/auth/selectors';
+import Layout from './components/Layout/Layout';
 
 const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const ContactsPage = lazy(() => import('./pages/ContactsPage/ContactsPage'));
@@ -21,21 +25,31 @@ const RegistrationPage = lazy(() =>
 function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
+  const isRefreshing = useSelector(selectAuthIsRefreshing);
+
+  useEffect(() => {
+    dispatch(apiRefreshUser());
+  }, [dispatch]);
 
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(fetchContacts());
     }
   }, [dispatch, isLoggedIn]);
+
+  if (isRefreshing) {
+    return <Loader />;
+  }
+
   return (
     <>
-      <Navigation />
+      <Layout />
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/contacts" element={<ContactsPage />} />
+          {isLoggedIn && <Route path="/contacts" element={<ContactsPage />} />}
         </Routes>
       </Suspense>
     </>

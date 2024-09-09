@@ -19,12 +19,10 @@ export const register = createAsyncThunk(
     try {
       const { data } = await instance.post('/users/signup', formData);
       setAuthHeader(data.token);
+      localStorage.setItem('token', data.token);
       return data;
     } catch (error) {
-      console.error('Register error:', error);
-      return thunkAPI.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      );
+      return thunkAPI.rejectWithValue(error.message);
     }
   },
 );
@@ -35,12 +33,10 @@ export const login = createAsyncThunk(
     try {
       const { data } = await instance.post('/users/login', formData);
       setAuthHeader(data.token);
+      localStorage.setItem('token', data.token);
       return data;
     } catch (error) {
-      console.error('Login error:', error);
-      return thunkApi.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      );
+      return thunkApi.rejectWithValue(error.message);
     }
   },
 );
@@ -49,7 +45,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkApi) => {
   try {
     await instance.post('/users/logout');
     setAuthHeader('');
-
+    localStorage.removeItem('token');
     return;
   } catch (error) {
     return thunkApi.rejectWithValue(error.message);
@@ -63,14 +59,22 @@ export const apiRefreshUser = createAsyncThunk(
       const state = thunkApi.getState();
       const token = state.auth.token;
       setAuthHeader(token);
+
       const { data } = await instance.get('/users/current');
-      console.log('Refresh data:', data);
+
       return data;
     } catch (error) {
-      console.error('Refresh error:', error);
-      return thunkApi.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      );
+      return thunkApi.rejectWithValue(error.message);
     }
+  },
+  {
+    condition: (_, thunkApi) => {
+      const state = thunkApi.getState();
+      const token = state.auth.token;
+
+      if (token) return true;
+
+      return false;
+    },
   },
 );

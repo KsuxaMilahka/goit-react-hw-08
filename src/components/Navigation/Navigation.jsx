@@ -3,6 +3,7 @@ import styles from './Navigation.module.css';
 import { selectAuthIsLoggedIn } from '../../redux/auth/selectors';
 import { useSelector } from 'react-redux';
 import AuthNav from '../AuthNav/AuthNav';
+import UserMenu from '../UserMenu/UserMenu';
 
 const Navigation = () => {
   const isLoggedIn = useSelector(selectAuthIsLoggedIn);
@@ -13,9 +14,12 @@ const Navigation = () => {
         Home
       </NavLink>
       {isLoggedIn ? (
-        <NavLink className={styles.navA} to="/contacts">
-          Contacts
-        </NavLink>
+        <>
+          <NavLink className={styles.navA} to="/contacts">
+            Contacts
+          </NavLink>
+          <UserMenu />
+        </>
       ) : (
         <AuthNav />
       )}
