@@ -1,20 +1,92 @@
-.link {
-    font-size: 18px;
+.nav {
+    background-color: #f8f9fa;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    border-radius: 8px;
+
+    transition: background-color 0.3s ease;
+
 }
 
-.authNav {
+.nav:hover {
+    background-color: #e9ecef;
+
+}
+
+.nav-left {
     display: flex;
-    gap: 16px;
+    align-items: center;
+
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+
 }
 
 .navA {
-    margin-right: 1rem;
+    margin-right: 1.5rem;
+
     text-decoration: none;
     color: #007bff;
+    font-size: 1.1rem;
+
+    font-weight: 500;
+
+    transition: color 0.3s ease, transform 0.3s ease;
+
+}
+
+.navA:last-child {
+    margin-right: 0;
+}
+
+.navA:hover {
+    color: #03b300;
+    transform: scale(1.05);
+
 }
 
 .navA.active {
     font-weight: bold;
-    color: rgb(74, 255, 137);
-    ;
+    color: #03b300;
+    border-bottom: 2px solid #03b300;
+
+}
+
+.navA:focus {
+    outline: none;
+
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+
+}
+
+button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+
 }

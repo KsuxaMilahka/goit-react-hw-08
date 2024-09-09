@@ -6,11 +6,7 @@ export const instance = axios.create({
 });
 
 const setAuthHeader = token => {
-  if (token) {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  } else {
-    delete axios.defaults.headers.common.Authorization;
-  }
+  instance.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 export const register = createAsyncThunk(
@@ -19,7 +15,7 @@ export const register = createAsyncThunk(
     try {
       const { data } = await instance.post('/users/signup', formData);
       setAuthHeader(data.token);
-      localStorage.setItem('token', data.token);
+
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -33,7 +29,7 @@ export const login = createAsyncThunk(
     try {
       const { data } = await instance.post('/users/login', formData);
       setAuthHeader(data.token);
-      localStorage.setItem('token', data.token);
+
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -43,9 +39,8 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk('auth/logout', async (_, thunkApi) => {
   try {
-    await instance.post('/users/logout');
+    await instance.post('users/logout');
     setAuthHeader('');
-    localStorage.removeItem('token');
     return;
   } catch (error) {
     return thunkApi.rejectWithValue(error.message);
@@ -58,10 +53,10 @@ export const apiRefreshUser = createAsyncThunk(
     try {
       const state = thunkApi.getState();
       const token = state.auth.token;
+
       setAuthHeader(token);
 
-      const { data } = await instance.get('/users/current');
-
+      const { data } = await instance.get('users/current');
       return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
