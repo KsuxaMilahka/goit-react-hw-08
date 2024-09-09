@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   name: '',
 };
 
-const filtersSlice = createSlice({
+export const filtersSlice = createSlice({
   name: 'filters',
   initialState: INITIAL_STATE,
   reducers: {
@@ -15,5 +15,3 @@ const filtersSlice = createSlice({
 });
 
 export const filtersReducer = filtersSlice.reducer;
-export const { changeFilter } = filtersSlice.actions;
-export const selectNameFilter = state => state.filters.name;
